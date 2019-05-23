@@ -1,0 +1,156 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+// 本地仓库
+apply plugin: 'maven'
+// jcenter
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        resourcePrefix "plum_tree_"    //这个随便填
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation "com.android.support:support-v4:$supportLibVersion"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
+}
+
+version = "1.0.3"
+def siteUrl = 'https://github.com/plumcookingwine/TreeAdapter'      // 项目的主页
+def gitUrl = 'git@github.com:plumcookingwine/TreeAdapter.git'   // Git仓库的url
+group = "com.plumcookingwine.tree"              // Maven Group ID for the artifact，一般填你唯一的包名
+
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name 'library update'    //项目描述
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'plumcookingwine'        //填写的一些基本信息
+                        name 'plumcookingwine'
+                        email 'plumcookingwine@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+// 生成jar包的task，不需要修改。
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}// 生成javaDoc的jar，不需要修改task
+task javadoc(type: Javadoc) {
+    options.encoding = "UTF-8"
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title 'A CalendarView Support Lunar Calendar For Android'   // 文档标题
+    }
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+task releaseJar(type: Copy) {
+    from('build/intermediates/bundles/release')
+    into('../jar')
+    include('classes.jar')
+    rename('classes.jar', 'okgo-' + version + '.jar')
+}
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        userOrg = "plumcookingwine"        //发布到JCenter的组织，注意新版本的bintray是需要手动创建的
+        repo = "maven"              //发布到JCenter上的仓库名称，注意新版本的bintray是需要手动创建的        // 发布到Bintray上的项目名字
+        name = "TreeRvAdapter"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: MAVEN_REPO_RELEASE_URL) {
+//                authentication(userName: MAVEN_REPO_USER_NAME, password: MAVEN_REPO_PASSWORD)
+//            }
+//            pom.project {
+//                version '1.0.3'
+//                // artifactId 'tree'
+//                groupId 'com.plumcookingwine.tree'
+//                description 'custom repo for TreeRvAdapter'
+//            }
+//        }
+//    }
+//}
