@@ -7,12 +7,12 @@ abstract class BasePresenter<V : BaseView>(view: V) : ICommonInterface {
 
     var mView: V? = null
 
+
     init {
         this.mView = view
         @Suppress("LeakingThis")
         view.setPresenter(this@BasePresenter)
     }
-
 
     override fun onSubscribe() {
         mView!!.showLoading()
