@@ -1,6 +1,7 @@
 package com.plumcookingwine.network.callback
 
 import android.widget.Toast
+import com.plumcookingwine.network.cookie.CookieResultListener
 import com.plumcookingwine.network.exception.ApiErrorModel
 import com.plumcookingwine.network.helper.NetworkHelper
 
@@ -16,7 +17,7 @@ abstract class INetworkCallback<T>(private val commonInterface: ICommonInterface
     /**
      * 请求成功回调
      */
-    abstract fun onSuccess(obj: T)
+    abstract fun onSuccess(obj: T, cookieListener: CookieResultListener)
 
     /**
      * 缓存回调

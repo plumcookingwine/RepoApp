@@ -3,11 +3,15 @@ package com.plumcookingwine.repo.view.main
 import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
+import com.google.gson.Gson
 import com.plumcookingwine.network.manager.HttpManager
 import com.plumcookingwine.network.callback.INetworkCallback
 import com.plumcookingwine.network.config.AbsRequestOptions
+import com.plumcookingwine.network.cookie.CookieResultListener
+import com.plumcookingwine.network.exception.ApiErrorModel
 import com.plumcookingwine.network.func.RetryWhenFunc
 import com.plumcookingwine.repo.base.BasePresenter
+import com.plumcookingwine.repo.entity.MainModel
 import com.plumcookingwine.repo.service.MainService
 import io.reactivex.Observable
 import retrofit2.Retrofit
@@ -30,17 +34,27 @@ class MainPresenter(view: MainView) : BasePresenter<MainView>(view) {
                 }
             }.apply {
                 isCache = true
-                cacheUrl = ""
+                cacheUrl = "login"
             },
 
             object : INetworkCallback<String>(this) {
+
 
                 override fun onCache(json: String) {
                     mView?.success("cache===$json")
                 }
 
-                override fun onSuccess(obj: String) {
-                    mView?.success(obj)
+                override fun onSuccess(obj: String, cookieListener: CookieResultListener) {
+
+                    val mainModel = Gson().fromJson<MainModel>(obj, MainModel::class.java)
+                    if (mainModel.code == "0") {
+                        mView?.success(obj)
+                        cookieListener.saveCookie()
+                        return
+                    }
+
+                    onError(ApiErrorModel((mainModel.code ?: "0").toInt(), mainModel.msg ?: "error"))
+
                 }
 //                override fun onError(err: ApiErrorModel?) {
 //                    mView?.onError(err?.message ?: "error")

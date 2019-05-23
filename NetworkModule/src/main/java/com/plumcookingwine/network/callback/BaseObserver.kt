@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.plumcookingwine.network.config.AbsRequestOptions
 import com.plumcookingwine.network.cookie.CookieResultDefault
+import com.plumcookingwine.network.cookie.CookieResultListener
 import com.plumcookingwine.network.cookie.dao.CookieDao
 import com.plumcookingwine.network.exception.ApiErrorModel
 import com.plumcookingwine.network.exception.ApiErrorType
@@ -92,12 +93,18 @@ class BaseObserver<T>(
         if (mCallback == null) {
             throw Throwable("callback is con't null")
         }
-        mCallback.onSuccess(t)
-        // 如果缓存，保存数据
-        if (isCache) {
-            val json: String = if (t is String) t else Gson().toJson(t)
-            cookieResult.saveData(CookieDao(0, json, System.currentTimeMillis()))
-        }
+
+        mCallback.onSuccess(t, object :CookieResultListener {
+            override fun saveCookie() {
+                // 如果缓存，保存数据
+                if (isCache) {
+                    val json: String = if (t is String) t else Gson().toJson(t)
+                    cookieResult.saveData(CookieDao(0, json, System.currentTimeMillis()))
+                }
+            }
+
+        })
+
     }
 
     /**
