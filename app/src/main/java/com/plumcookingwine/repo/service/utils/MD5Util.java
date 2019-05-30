@@ -1,4 +1,4 @@
-package com.plumcookingwine.repo.service.interceptor;
+package com.plumcookingwine.repo.service.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

@@ -5,23 +5,22 @@ import com.trello.rxlifecycle2.LifecycleProvider
 
 abstract class BasePresenter<V : BaseView>(view: V) : ICommonInterface {
 
-    var mView: V? = null
+    val mView: V = view
 
     init {
-        this.mView = view
         @Suppress("LeakingThis")
         view.setPresenter(this@BasePresenter)
     }
 
     override fun onSubscribe() {
-        mView!!.showLoading()
+        mView.showLoading()
     }
 
     override fun onComplete() {
-        mView!!.hideLoading()
+        mView.hideLoading()
     }
 
     override fun lifecycle(): LifecycleProvider<*> {
-        return mView!!.getNetLifecycle()
+        return mView.getNetLifecycle()
     }
 }

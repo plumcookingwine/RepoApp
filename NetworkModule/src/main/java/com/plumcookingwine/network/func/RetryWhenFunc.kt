@@ -17,8 +17,7 @@ class RetryWhenFunc(
     private val count: Int = 3,
     private val delay: Long = 3000,
     private val increaseDelay: Long = 3000
-) :
-    Function<Observable<Throwable>, ObservableSource<*>> {
+) : Function<Observable<Throwable>, ObservableSource<*>> {
 
     override fun apply(t: Observable<Throwable>): ObservableSource<*> {
 

@@ -6,15 +6,13 @@ import android.util.Log
 import com.google.gson.Gson
 import com.plumcookingwine.network.manager.HttpManager
 import com.plumcookingwine.network.callback.INetworkCallback
-import com.plumcookingwine.network.config.AbsRequestOptions
 import com.plumcookingwine.network.cookie.CookieResultListener
 import com.plumcookingwine.network.exception.ApiErrorModel
 import com.plumcookingwine.network.func.RetryWhenFunc
 import com.plumcookingwine.repo.base.BasePresenter
 import com.plumcookingwine.repo.entity.MainModel
-import com.plumcookingwine.repo.service.MainService
+import com.plumcookingwine.repo.service.options.LoginOpt
 import io.reactivex.Observable
-import retrofit2.Retrofit
 import java.net.ConnectException
 
 class MainPresenter(view: MainView) : BasePresenter<MainView>(view) {
@@ -22,57 +20,39 @@ class MainPresenter(view: MainView) : BasePresenter<MainView>(view) {
     /**
      * 测试网络请求
      */
-    fun request() {
+    fun request(page: Int) {
         HttpManager.instance.doHttpDeal(
-
-            object : AbsRequestOptions<String>() {
-
-                override fun createService(retrofit: Retrofit): Observable<String> {
-                    return retrofit.create(MainService::class.java).login(
-                        "123", "123", "123", "123"
-                    )
-                }
-            }.apply {
-                isCache = true
-                cacheUrl = "login"
-            },
-
+            LoginOpt("123", "123", "123", "123"),
             object : INetworkCallback<String>(this) {
 
-
-                override fun onCache(json: String) {
-                    mView?.success("cache===$json")
+                override fun onCache(json: String): Boolean {
+                    // 只有第一次请求才缓存(缓存第一页的数据)
+                    val isCache = page == 0
+                    if (isCache) {
+                        mView.success("cache===$json")
+                    }
+                    return isCache
                 }
 
                 override fun onSuccess(obj: String, cookieListener: CookieResultListener) {
 
                     val mainModel = Gson().fromJson<MainModel>(obj, MainModel::class.java)
-                    if (mainModel.code == "0") {
-                        mView?.success(obj)
+                    if (mainModel.code == "2001") {
+                        mView.success(obj)
                         cookieListener.saveCookie()
                         return
                     }
-
                     onError(ApiErrorModel((mainModel.code ?: "0").toInt(), mainModel.msg ?: "error"))
-
                 }
-//                override fun onError(err: ApiErrorModel?) {
-//                    mView?.onError(err?.message ?: "error")
-//                }
-
             })
-
     }
-
 
     /**
      * 测试超时重试功能，此处测试完美
      */
     @SuppressLint("CheckResult")
     fun testRetry() {
-
         Log.i("MainActivity", "version === ${Build.VERSION.SDK_INT}")
-
         Observable
             .create<String> {
                 it.onNext("1")

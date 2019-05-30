@@ -1,5 +1,6 @@
 package com.plumcookingwine.repo.service.interceptor
 
+import com.plumcookingwine.repo.service.utils.SignUtils
 import okhttp3.*
 import okio.Buffer
 import java.io.IOException

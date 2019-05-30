@@ -65,7 +65,6 @@ class BaseObserver<T>(
                 val cacheTime = if (NetworkHelper.instance.hasNetWork()) requestOptions.cacheTimeForNetwork
                 else requestOptions.cacheTimeForNoNetwork
 
-
                 if ((currentTime - cookieDate) > cacheTime) {
                     //超过了缓存时间，清除缓存,并继续请求
                     mCallback?.getCommonInter()?.onSubscribe()
@@ -73,11 +72,23 @@ class BaseObserver<T>(
                 } else {
                     // 否则进入缓存回调, 并更新缓存时间
                     // (此处并不进行解析json，可以以json字符串作为T的类型)
-                    mCallback?.onCache(cookieDao.result ?: "")
-                    cookieDao.date = currentTime
-                    cookieResult.upData(cookieDao)
-                    d.dispose()
-                    onComplete()
+                    val result = cookieDao.result
+
+                    if (!result.isNullOrEmpty()) {
+                        val isCache = mCallback?.onCache(result)
+                        if (isCache == true) {
+                            if (requestOptions.isDebug()) {
+                                // 打印缓存日志
+                                Log.i("RetrofitManager", "<-- cache $cacheUrl")
+                                Log.i("RetrofitManager", "$result")
+                            }
+                            cookieDao.date = currentTime
+                            cookieResult.upData(cookieDao)
+                            d.dispose()
+                            onComplete()
+                        }
+
+                    }
                 }
             }
             return
@@ -94,7 +105,7 @@ class BaseObserver<T>(
             throw Throwable("callback is con't null")
         }
 
-        mCallback.onSuccess(t, object :CookieResultListener {
+        mCallback.onSuccess(t, object : CookieResultListener {
             override fun saveCookie() {
                 // 如果缓存，保存数据
                 if (isCache) {
@@ -150,7 +161,7 @@ class BaseObserver<T>(
         }
         mCallback.onError(apiErrorModel)
         // 网络出现错误后通知view
-        mCallback.getCommonInter().onComplete()
+        mCallback.getCommonInter()?.onComplete()
     }
 
     private fun otherError(e: HttpException): ApiErrorModel? {

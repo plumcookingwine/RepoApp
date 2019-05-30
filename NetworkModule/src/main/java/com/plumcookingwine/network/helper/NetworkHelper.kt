@@ -84,10 +84,8 @@ class NetworkHelper {
                 mInterceptors.addAll(interceptors)
             mCookieResultImpl = cookieResult
         }
-
         val instance by lazy { NetworkHelper() }
     }
-
 
     /**
      * 获取上下文对象

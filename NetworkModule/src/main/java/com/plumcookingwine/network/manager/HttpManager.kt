@@ -17,18 +17,19 @@ class HttpManager private constructor() {
     /**
      * 网络请求
      */
-    fun <T> doHttpDeal(
-        options: AbsRequestOptions<T>?,
-        callback: INetworkCallback<T>
-    ) {
+    fun <T> doHttpDeal(options: AbsRequestOptions<T>?, callback: INetworkCallback<T>) {
 
         if (options == null) {
             callback.onError(ApiErrorModel(0x00, "options is con not null"))
             return
         }
-
+        val inter = callback.getCommonInter()
+        if(inter == null) {
+            callback.onError(ApiErrorModel(0x01, "Implement the ICommonInterface interface"))
+            return
+        }
         options.createService(RetrofitManager.instance.getRetrofit(options))
-            .bind(callback.getCommonInter().lifecycle())
+            .bind(inter.lifecycle())
             .retryWhen(
                 RetryWhenFunc(
                     options.retryCount,

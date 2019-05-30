@@ -7,7 +7,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainPresenter>(), MainView {
 
+    // 模拟分页
+    private var page = 0
+
     override fun success(json: String) {
+        page++
         Toast.makeText(this, "success === $json", Toast.LENGTH_SHORT).show()
     }
 
@@ -20,8 +24,9 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
     }
 
     override fun init() {
+
         btnRequest.setOnClickListener {
-            mPresenter.request()
+            mPresenter.request(page)
         }
 
         btnRetry.setOnClickListener {
