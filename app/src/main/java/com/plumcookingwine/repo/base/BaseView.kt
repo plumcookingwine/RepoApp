@@ -6,7 +6,7 @@ interface BaseView {
 
     fun getNetLifecycle(): LifecycleProvider<*>
 
-    fun showLoading()
+    fun showLoading(loadingText: String)
 
     fun hideLoading()
 

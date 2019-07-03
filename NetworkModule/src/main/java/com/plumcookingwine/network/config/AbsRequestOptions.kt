@@ -11,8 +11,13 @@ abstract class AbsRequestOptions<T> {
     /**
      * 以下为网络配置，可根据需要自行修改
      */
-    var baseUrl: String = NetworkHelper.instance.getBaseUrl()
 
+    // 是否显示加载框，默认显示
+    var isShowProgress: Boolean = true
+    // 设置加载框显示文字
+    var loadingText: String? = null
+
+    var baseUrl: String = NetworkHelper.instance.getBaseUrl()
     // 设置超时时间
     var timeOut: Long = 6
     // 是否缓存
@@ -40,7 +45,7 @@ abstract class AbsRequestOptions<T> {
         return NetworkHelper.instance.getInterceptors()
     }
 
-    open fun isDebug():Boolean{
+    open fun isDebug(): Boolean {
         return NetworkHelper.instance.getIsDebug()
     }
 

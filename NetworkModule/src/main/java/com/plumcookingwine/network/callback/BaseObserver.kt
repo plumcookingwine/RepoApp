@@ -51,13 +51,18 @@ class BaseObserver<T>(
         if (isCache) {
             // 如果缓存路径为空，那么就不缓存数据
             if (cacheUrl.isEmpty()) {
-                mCallback?.getCommonInter()?.onSubscribe()
+                if (requestOptions.isShowProgress) {
+                    mCallback?.getCommonInter()?.onSubscribe(requestOptions.loadingText ?: "")
+                }
+
                 return
             }
             val cookieDao = cookieResult.getData()
             // 获取缓存内容，如果没有缓存的话，不做任何操作，继续往下走
             if (cookieDao == null) {
-                mCallback?.getCommonInter()?.onSubscribe()
+                if (requestOptions.isShowProgress) {
+                    mCallback?.getCommonInter()?.onSubscribe(requestOptions.loadingText ?: "")
+                }
             } else {
                 val currentTime = System.currentTimeMillis()
                 val cookieDate = cookieDao.date ?: 0L
@@ -67,7 +72,9 @@ class BaseObserver<T>(
 
                 if ((currentTime - cookieDate) > cacheTime) {
                     //超过了缓存时间，清除缓存,并继续请求
-                    mCallback?.getCommonInter()?.onSubscribe()
+                    if (requestOptions.isShowProgress) {
+                        mCallback?.getCommonInter()?.onSubscribe(requestOptions.loadingText ?: "")
+                    }
                     cookieResult.deleteData(cookieDao)
                 } else {
                     // 否则进入缓存回调, 并更新缓存时间
@@ -94,7 +101,9 @@ class BaseObserver<T>(
             return
         }
         // 如果没缓存不做任何操作
-        mCallback?.getCommonInter()?.onSubscribe()
+        if (requestOptions.isShowProgress) {
+            mCallback?.getCommonInter()?.onSubscribe(requestOptions.loadingText ?: "")
+        }
     }
 
     /**

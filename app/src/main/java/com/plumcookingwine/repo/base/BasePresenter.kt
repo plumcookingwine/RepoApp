@@ -12,8 +12,8 @@ abstract class BasePresenter<V : BaseView>(view: V) : ICommonInterface {
         view.setPresenter(this@BasePresenter)
     }
 
-    override fun onSubscribe() {
-        mView.showLoading()
+    override fun onSubscribe(loadingText: String) {
+        mView.showLoading(loadingText)
     }
 
     override fun onComplete() {

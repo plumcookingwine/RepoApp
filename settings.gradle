@@ -1,1 +1,1 @@
-include ':app', ':TreeRvAdapter', ':NetworkModule'
+include ':app', ':TreeRvAdapter', ':NetworkModule', ':DFileSelector'

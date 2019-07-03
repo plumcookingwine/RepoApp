@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/DFileSelector" />
             <option value="$PROJECT_DIR$/NetworkModule" />
             <option value="$PROJECT_DIR$/TreeRvAdapter" />
             <option value="$PROJECT_DIR$/app" />

@@ -30,7 +30,7 @@ abstract class BaseActivity<P : BasePresenter<*>> : RxAppCompatActivity(), BaseV
         logic()
     }
 
-    override fun showLoading() {
+    override fun showLoading(loadingText: String) {
         Log.i("TAG", "show")
         Toast.makeText(this, "show", Toast.LENGTH_SHORT).show()
     }

@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-
+// 本地仓库
+apply plugin: 'maven'
 //realm 数据库添加kapt引入需要
 //apply plugin: 'kotlin-kapt'
 
@@ -11,7 +12,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -58,4 +59,21 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: MAVEN_REPO_RELEASE_URL) {
+                authentication(userName: MAVEN_REPO_USER_NAME, password: MAVEN_REPO_PASSWORD)
+            }
+            pom.project {
+                version '1.0.1'
+                // artifactId 'tree'
+                groupId 'com.plumcookingwine.network'
+                description 'custom repo for network'
+            }
+        }
+    }
 }

@@ -6,7 +6,7 @@ interface ICommonInterface {
 
     fun lifecycle(): LifecycleProvider<*>
 
-    fun onSubscribe()
+    fun onSubscribe(loadingMsg: String)
 
     fun onComplete()
 }
