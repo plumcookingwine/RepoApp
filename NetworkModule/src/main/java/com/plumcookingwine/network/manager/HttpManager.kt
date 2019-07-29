@@ -39,7 +39,7 @@ class HttpManager private constructor() {
             )
             .map {
                 if (it == null) {
-                    throw Throwable("error")
+                    throw Throwable("server error: data is null!")
                 }
                 it
             }

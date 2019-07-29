@@ -1,6 +1,6 @@
 package com.plumcookingwine.repo.view.main
 
-import com.plumcookingwine.repo.base.BaseView
+import com.plumcookingwine.base.view.BaseView
 
 interface MainView: BaseView {
 

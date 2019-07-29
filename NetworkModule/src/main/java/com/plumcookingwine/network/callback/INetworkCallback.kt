@@ -38,13 +38,20 @@ abstract class INetworkCallback<T>(private val commonInterface: ICommonInterface
      */
     open fun onError(err: ApiErrorModel?) {
         getCommonInter()?.onComplete()
-        Toast
-            .makeText(
-                NetworkHelper.instance.getContext(),
-                err?.message ?: NetworkHelper.instance.getContext().getString(R.string.UNEXPECTED_ERROR),
-                Toast.LENGTH_SHORT
-            )
-            .show()
+
+        if (getCommonInter()?.isDefaultError() == true) {
+            Toast
+                .makeText(
+                    NetworkHelper.instance.getContext(),
+                    err?.message ?: NetworkHelper.instance.getContext().getString(R.string.UNEXPECTED_ERROR),
+                    Toast.LENGTH_SHORT
+                )
+                .show()
+        } else {
+            if (err == null) return
+            getCommonInter()?.error(err)
+        }
+
     }
 
 

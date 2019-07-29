@@ -12,6 +12,9 @@
             <option value="$PROJECT_DIR$/NetworkModule" />
             <option value="$PROJECT_DIR$/TreeRvAdapter" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/servicemanager" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -1,7 +1,7 @@
 package com.plumcookingwine.repo.view.file
 
 import com.plumcookingwine.repo.R
-import com.plumcookingwine.repo.base.BaseActivity
+import com.plumcookingwine.base.view.BaseActivity
 import com.duke.dfileselector.activity.DefaultSelectorActivity
 import android.content.IntentFilter
 import android.content.Intent

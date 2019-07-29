@@ -9,8 +9,6 @@ apply plugin: 'maven'
 android {
     compileSdkVersion 28
 
-
-
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
@@ -69,7 +67,7 @@ uploadArchives {
                 authentication(userName: MAVEN_REPO_USER_NAME, password: MAVEN_REPO_PASSWORD)
             }
             pom.project {
-                version '1.0.1'
+                version '1.0.2'
                 // artifactId 'tree'
                 groupId 'com.plumcookingwine.network'
                 description 'custom repo for network'

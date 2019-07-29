@@ -1,6 +1,6 @@
 package com.plumcookingwine.repo.view.file
 
-import com.plumcookingwine.repo.base.BasePresenter
+import com.plumcookingwine.base.view.BasePresenter
 
 class SelectorFilePresenter(view: SelectorFileView) : BasePresenter<SelectorFileView>(view) {
 

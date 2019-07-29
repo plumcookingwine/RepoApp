@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0.6-snapshot"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "String", "BUILD_DATE", "\"${new Date().format('yyyy-MM-dd HH:mm:ss')}\""
+        }
+    }
+}
+
+apply from: "./jcenter.gradle"

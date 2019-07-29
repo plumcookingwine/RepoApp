@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -31,7 +39,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation project(':TreeRvAdapter')
-    implementation project(':NetworkModule')
-    implementation project(':DFileSelector')
+    kapt "com.alibaba:arouter-compiler:${aRouterCompilerVersion}"
+
+    implementation project(':common')
 }

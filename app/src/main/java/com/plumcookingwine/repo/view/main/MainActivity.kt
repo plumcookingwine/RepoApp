@@ -4,20 +4,17 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Handler
-import android.util.Log
 import android.widget.Toast
-import com.plumcookingwine.repo.R
-import com.plumcookingwine.repo.base.BaseActivity
 import com.plumcookingwine.repo.view.file.SelectorFileActivity
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.FlowableOnSubscribe
+import com.plumcookingwine.base.view.BaseActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
+import com.limpoxe.support.servicemanager.ServiceManager
+import com.plumcookingwine.base.provider.LoginProvider
+
 
 class MainActivity : BaseActivity<MainPresenter>(), MainView {
 
@@ -34,7 +31,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
     }
 
     override fun resLayoutId(): Int {
-        return R.layout.activity_main
+        return com.plumcookingwine.repo.R.layout.activity_main
     }
 
     override fun init() {
@@ -49,6 +46,13 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
 
         btnRetry.setOnClickListener {
             mPresenter.testRetry()
+        }
+
+        btnWebView.setOnClickListener {
+
+            val aservice = ServiceManager.getService("loginService") as LoginProvider
+            aservice.login("hello", "world")
+
         }
     }
 

@@ -1,1 +1,8 @@
-include ':app', ':TreeRvAdapter', ':NetworkModule', ':DFileSelector'
+include ':app',
+        ':TreeRvAdapter',
+        ':NetworkModule',
+        ':DFileSelector',
+//        ':CommonWebView',
+        ':base',
+        ':common',
+        ':servicemanager'

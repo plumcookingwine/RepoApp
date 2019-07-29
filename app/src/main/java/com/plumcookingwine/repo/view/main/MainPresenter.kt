@@ -9,7 +9,7 @@ import com.plumcookingwine.network.callback.INetworkCallback
 import com.plumcookingwine.network.cookie.CookieResultListener
 import com.plumcookingwine.network.exception.ApiErrorModel
 import com.plumcookingwine.network.func.RetryWhenFunc
-import com.plumcookingwine.repo.base.BasePresenter
+import com.plumcookingwine.base.view.BasePresenter
 import com.plumcookingwine.repo.entity.MainModel
 import com.plumcookingwine.repo.service.options.LoginOpt
 import io.reactivex.Observable
@@ -36,7 +36,7 @@ class MainPresenter(view: MainView) : BasePresenter<MainView>(view) {
 
                 override fun onSuccess(obj: String, cookieListener: CookieResultListener) {
 
-                    val mainModel = Gson().fromJson<MainModel>(obj, MainModel::class.java)
+                    val mainModel = Gson().fromJson(obj, MainModel::class.java)
                     if (mainModel.code == "2001") {
                         mView.success(obj)
                         cookieListener.saveCookie()
