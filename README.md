@@ -1,4 +1,4 @@
-### 具体使用方式请看 https://mp.csdn.net/mdeditor/100513698
+### 具体使用方式请看 https://blog.csdn.net/qq_22090073/article/details/100513698
 
 #  网络请求库使用方法
 ### 首先在gradle中引入NetWorkLibrary项目
