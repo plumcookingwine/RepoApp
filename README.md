@@ -1,6 +1,4 @@
-```
-    一个新的基础框架，封装了网络请求，并整合优化mvp架构，将来完全代替BaseLibrary
-```
+### 具体使用方式请看 <a href='https://mp.csdn.net/mdeditor/100513698'></a>
 
 #  网络请求库使用方法
 ### 首先在gradle中引入NetWorkLibrary项目
