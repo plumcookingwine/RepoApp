@@ -18,6 +18,7 @@ import java.lang.ref.SoftReference
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.concurrent.TimeoutException
 
 class BaseObserver<T>(
     softCallback: SoftReference<INetworkCallback<T>>,
@@ -160,6 +161,8 @@ class BaseObserver<T>(
                     is ConnectException,
                     is SocketTimeoutException ->
                         ApiErrorType.NETWORK_NOT_CONNECT
+                    is TimeoutException ->
+                        ApiErrorType.CONNECTION_TIMEOUT
                     else -> ApiErrorType.UNEXPECTED_ERROR
                 }
                 apiErrorModel = apiErrorType.getApiErrorModel()

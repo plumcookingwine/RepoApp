@@ -20,7 +20,6 @@ class PublicParamsInterceptor : Interceptor {
         val map = HashMap<String, Any?>()
         map["member_id"] = "123"
         map["account_type"] = 10
-        map["token"] = "123456"
         map["timestamp"] = System.currentTimeMillis()
         map["device_platform"] = "android"
         //

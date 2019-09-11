@@ -5,15 +5,19 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Handler
 import android.widget.Toast
-import com.plumcookingwine.repo.view.file.SelectorFileActivity
 import com.plumcookingwine.base.view.BaseActivity
+import com.plumcookingwine.repo.R
+import com.plumcookingwine.repo.view.file.SelectorFileActivity
+import com.plumcookingwine.repo.view.user.avatar.UploadImageActivity
+import com.pulmwine.processweb.atest.ui.CommandTestActivity
+import com.pulmwine.processweb.common.WebConstants
+import com.pulmwine.processweb.ui.WebActivity
+import com.pulmwine.processweb.weiget.BaseWebView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
-import com.limpoxe.support.servicemanager.ServiceManager
-import com.plumcookingwine.base.provider.LoginProvider
 
 
 class MainActivity : BaseActivity<MainPresenter>(), MainView {
@@ -31,7 +35,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
     }
 
     override fun resLayoutId(): Int {
-        return com.plumcookingwine.repo.R.layout.activity_main
+        return R.layout.activity_main
     }
 
     override fun init() {
@@ -48,11 +52,27 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
             mPresenter.testRetry()
         }
 
+        btnCommand.setOnClickListener {
+            startActivity(Intent(this@MainActivity, CommandTestActivity::class.java))
+        }
+
         btnWebView.setOnClickListener {
+            //            val aservice = ServiceManager.getService("loginService") as LoginProvider
+//            aservice.login("hello", "world")
 
-            val aservice = ServiceManager.getService("loginService") as LoginProvider
-            aservice.login("hello", "world")
 
+            WebActivity.start(
+                this@MainActivity,
+                "AIDL测试",
+                BaseWebView.CONTENT_SCHEME + "aidl.html",
+                WebConstants.LEVEL_ACCOUNT
+            )
+            // WebActivity.start(this@MainActivity, "测试12", "http://www.baidu.com", WebConstants.LEVEL_BASE)
+        }
+
+        btnRxUpload.setOnClickListener {
+            val intent = Intent(this, UploadImageActivity::class.java)
+            startActivity(intent)
         }
     }
 

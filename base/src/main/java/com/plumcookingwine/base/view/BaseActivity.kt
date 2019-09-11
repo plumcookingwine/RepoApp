@@ -1,5 +1,6 @@
 package com.plumcookingwine.base.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -19,6 +20,9 @@ abstract class BaseActivity<P : BasePresenter<*>> : RxAppCompatActivity(),
 
     protected abstract fun initPresenter(): P
 
+
+    private lateinit var dialog: AlertDialog
+
     override fun getNetLifecycle(): LifecycleProvider<*> {
         return this
     }
@@ -27,18 +31,28 @@ abstract class BaseActivity<P : BasePresenter<*>> : RxAppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(resLayoutId())
         mPresenter = initPresenter()
+        dialog = AlertDialog.Builder(this).setCancelable(false)
+            .setMessage("加载中")
+            .create()
         init()
         logic()
     }
 
     override fun showLoading(loadingText: String) {
         Log.i("TAG", "show")
-        Toast.makeText(this, "show", Toast.LENGTH_SHORT).show()
+        dialog.setMessage(loadingText)
+        if (dialog.isShowing.not()) {
+            dialog.show()
+        }
+
     }
 
     override fun hideLoading() {
         Log.i("TAG", "hide")
-        Toast.makeText(this, "hide", Toast.LENGTH_SHORT).show()
+        if (dialog.isShowing) {
+            dialog.dismiss()
+        }
+
     }
 
     override fun onError(text: String) {

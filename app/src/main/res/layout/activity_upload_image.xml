@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".view.user.avatar.UploadImageActivity">
+
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RadioButton
+                android:id="@+id/mRbSingle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="单张图片上传" />
+
+        <RadioButton
+                android:id="@+id/mRbMul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="多张图片上传" />
+    </RadioGroup>
+
+    <com.plumcookingwine.base.weiget.IRecyclerView
+            android:id="@+id/mRvImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <ImageView
+            android:id="@+id/mIvSingle"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:src="@drawable/dfileselector_file_type_folder" />
+
+    <Button
+            android:id="@+id/mBtnUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/dp_20"
+            android:text="上传" />
+
+</LinearLayout>

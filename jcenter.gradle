@@ -1,0 +1,91 @@
+// jcenter
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+version = "1.0.0"
+def siteUrl = 'https://github.com/plumcookingwine/RepoApp/tree/master/NetworkModule'      // 项目的主页
+def gitUrl = 'git@github.com:plumcookingwine/RepoApp.git'   // Git仓库的url
+group = "com.plumcookingwine.network"              // Maven Group ID for the artifact，一般填你唯一的包名
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name 'library update'    //项目描述
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'plumcookingwine'        //填写的一些基本信息
+                        name 'plumcookingwine'
+                        email 'plumcookingwine@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+// 生成jar包的task，不需要修改。
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}// 生成javaDoc的jar，不需要修改task
+task javadoc(type: Javadoc) {
+    options.encoding = "UTF-8"
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title 'A CalendarView Support Lunar Calendar For Android'   // 文档标题
+    }
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+task releaseJar(type: Copy) {
+    from('build/intermediates/bundles/release')
+    into('../jar')
+    include('classes.jar')
+    rename('classes.jar', 'okgo-' + version + '.jar')
+}
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        userOrg = "plumcookingwine"        //发布到JCenter的组织，注意新版本的bintray是需要手动创建的
+        repo = "maven"              //发布到JCenter上的仓库名称，注意新版本的bintray是需要手动创建的        // 发布到Bintray上的项目名字
+        name = "NetworkModule"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}

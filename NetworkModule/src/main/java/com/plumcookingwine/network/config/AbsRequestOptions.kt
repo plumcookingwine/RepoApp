@@ -2,6 +2,7 @@ package com.plumcookingwine.network.config
 
 import com.plumcookingwine.network.cookie.AbsCookieResult
 import com.plumcookingwine.network.helper.NetworkHelper
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import okhttp3.Interceptor
 import retrofit2.Retrofit
@@ -36,6 +37,10 @@ abstract class AbsRequestOptions<T> {
     var retryIncreaseDelay: Long = 10
 
     abstract fun createService(retrofit: Retrofit): Observable<T>
+
+    open fun createFlowable(retrofit: Retrofit): Flowable<T>? {
+        return null
+    }
 
     open fun getCookieResult(): AbsCookieResult? {
         return NetworkHelper.instance.getCookResultImpl()

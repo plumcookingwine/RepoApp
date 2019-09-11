@@ -1,8 +1,9 @@
 package com.plumcookingwine.network.body
 
+import com.plumcookingwine.network.callback.UploadProgressListener
 import java.io.IOException
 
-import com.plumcookingwine.network.callback.UploadProgressListener
+import io.reactivex.disposables.Disposable
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.Buffer
@@ -16,7 +17,7 @@ import okio.Sink
  */
 open class ProgressRequestBody(//实际起作用的RequestBody
     private val delegate: RequestBody, //进度回调接口
-    private val progressListener: UploadProgressListener
+    private val progressListener:  UploadProgressListener
 ) : RequestBody() {
     private var countingSink: CountingSink? = null
 

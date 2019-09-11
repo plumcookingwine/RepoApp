@@ -1,8 +1,7 @@
 package com.plumcookingwine.repo
 
 import org.junit.Test
-
-import org.junit.Assert.*
+import java.io.BufferedReader
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +11,7 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+
+        System.out.println("a==" + (6 / 10))
     }
 }

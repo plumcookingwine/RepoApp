@@ -122,6 +122,9 @@ class NetworkHelper {
     }
 
 
+    /**
+     * 自定义拦截器
+     */
     fun getInterceptors(): List<Interceptor> {
         return mInterceptors
     }

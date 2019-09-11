@@ -42,4 +42,5 @@ dependencies {
     kapt "com.alibaba:arouter-compiler:${aRouterCompilerVersion}"
 
     implementation project(':common')
+    implementation project(':processweb')
 }

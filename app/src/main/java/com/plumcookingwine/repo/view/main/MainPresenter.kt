@@ -27,11 +27,8 @@ class MainPresenter(view: MainView) : BasePresenter<MainView>(view) {
 
                 override fun onCache(json: String): Boolean {
                     // 只有第一次请求才缓存(缓存第一页的数据)
-                    val isCache = page == 0
-                    if (isCache) {
-                        mView.success("cache===$json")
-                    }
-                    return isCache
+                    mView.success("cache===$json")
+                    return true
                 }
 
                 override fun onSuccess(obj: String, cookieListener: CookieResultListener) {
@@ -43,6 +40,10 @@ class MainPresenter(view: MainView) : BasePresenter<MainView>(view) {
                         return
                     }
                     onError(ApiErrorModel((mainModel.code ?: "0").toInt(), mainModel.msg ?: "error"))
+                }
+
+                override fun onError(err: ApiErrorModel?) {
+                    super.onError(err)
                 }
             })
     }

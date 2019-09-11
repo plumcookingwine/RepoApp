@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+    <ImageView
+            android:id="@+id/mIv"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/album_item_unavailable"
+            android:scaleType="centerCrop" />
+
+
+    <TextView
+            android:id="@+id/mProgress"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:background="#55000000"
+            android:gravity="center"
+            android:progress="0"
+            android:text="%0"
+            android:textColor="#fff"
+            android:textSize="@dimen/sp_16"
+            android:visibility="gone" />
+
+    <TextView
+            android:id="@+id/mError"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:background="#55000000"
+            android:gravity="center"
+            android:progress="0"
+            android:text="上传失败"
+            android:textColor="#fff"
+            android:textSize="@dimen/sp_16"
+            android:visibility="gone" />
+</RelativeLayout>

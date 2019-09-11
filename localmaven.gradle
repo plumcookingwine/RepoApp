@@ -1,0 +1,18 @@
+// 本地仓库
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: MAVEN_REPO_RELEASE_URL) {
+                authentication(userName: MAVEN_REPO_USER_NAME, password: MAVEN_REPO_PASSWORD)
+            }
+            pom.project {
+                version '1.0.2'
+                // artifactId 'tree'
+                groupId 'com.plumcookingwine.network'
+                description 'custom repo for network'
+            }
+        }
+    }
+}

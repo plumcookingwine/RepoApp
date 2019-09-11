@@ -47,19 +47,30 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    api "com.android.support:support-v4:$supportLibVersion"
+    api 'com.android.support.constraint:constraint-layout:1.1.3'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    api "com.android.support:appcompat-v7:$supportLibVersion"
+    api "com.android.support:design:$supportLibVersion"
+    api "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
     // ARouter路由替换成最新版本, 需要注意的是api，要与compiler匹配使用，均使用最新版可以保证兼容
     api "com.alibaba:arouter-api:${aRouterApiVersion}"
     kapt "com.alibaba:arouter-compiler:${aRouterCompilerVersion}"
 
+    // 图片选择
+    api 'com.yanzhenjie:album:2.1.3'
+    // Glide
+    api "com.github.bumptech.glide:glide:$glideVersion"
+    api "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+
     api project(':TreeRvAdapter')
     api project(':NetworkModule')
     api project(':DFileSelector')
-//    api project(':CommonWebView')
     api project(':servicemanager')
 }
